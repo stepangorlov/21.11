@@ -1,0 +1,58 @@
+def interval_scheduling(intervals):
+    """
+    Жадный алгоритм для выбора максимального числа непересекающихся интервалов.
+    
+    Args:
+        intervals: список интервалов в формате [start, end]
+    
+    Returns:
+        список выбранных непересекающихся интервалов
+    """
+    # Сортируем интервалы по времени окончания (жадный выбор)
+    intervals.sort(key=lambda x: x[1])
+    result = []
+    last_end = -1  # время окончания последнего выбранного интервала
+    
+    for start, end in intervals:
+        # Если текущий интервал не пересекается с последним выбранным
+        if start >= last_end:
+            result.append((start, end))
+            last_end = end  # обновляем время окончания
+    
+    return result
+
+
+# Пример использования и тестирования
+if __name__ == "__main__":
+    # Тестовые примеры
+    test_cases = [
+        [(1, 3), (2, 4), (3, 5), (0, 6)],
+        [(1, 2), (3, 4), (5, 6)],
+        [(1, 5), (2, 3), (4, 6)],
+        [(1, 3), (4, 6), (7, 9)],
+        [(1, 10), (2, 3), (4, 5), (6, 7)]
+    ]
+    
+    print("Жадный алгоритм: интервальное планирование")
+    print("=" * 50)
+    
+    for i, intervals in enumerate(test_cases, 1):
+        result = interval_scheduling(intervals)
+        print(f"Тест {i}:")
+        print(f"Входные интервалы: {intervals}")
+        print(f"Выбранные интервалы: {result}")
+        print(f"Количество интервалов: {len(result)}")
+        print("-" * 30)
+
+    # Демонстрация работы алгоритма
+    print("\nДемонстрация работы алгоритма:")
+    demo_intervals = [(1, 3), (2, 4), (3, 5), (0, 6), (4, 7)]
+    print(f"Исходные интервалы: {demo_intervals}")
+    
+    # Покажем отсортированные интервалы
+    sorted_intervals = sorted(demo_intervals, key=lambda x: x[1])
+    print(f"Отсортированные по окончанию: {sorted_intervals}")
+    
+    result = interval_scheduling(demo_intervals)
+    print(f"Результат: {result}")
+    print(f"Максимальное количество непересекающихся интервалов: {len(result)}")
